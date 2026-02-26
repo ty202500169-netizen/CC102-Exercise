@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    char runAgain;
+    int numStudents, numDays;
+
+    do {
+        cout << "Enter number of students: ";
+        cin >> numStudents;
+
+        cout << "Enter number of school days: ";
+        cin >> numDays;
+
+        vector<vector<int>> attendance(numStudents, vector<int>(numDays));
+
+        cout << "\n--- ENTER ATTENDANCE ---\n";
+
+        for (int i = 0; i < numStudents; i++) {
+            cout << "\nStudent " << (i + 1) << ":\n";
+
+            for (int j = 0; j < numDays; j++) {
+                cout << "  Day " << (j + 1) << " (1=Present, 0=Absent): ";
+                cin >> attendance[i][j];
+            }
+        }
+
+        cout << "\n\n========== ATTENDANCE REPORT ==========\n\n";
+
+        cout << "Student  ";
+        for (int d = 0; d < numDays; d++) {
+            cout << "Day" << (d + 1) << "  ";
+        }
+        cout << "Total  Percent  Remarks\n";
+        cout << "----------------------------------------------\n";
+
+        for (int i = 0; i < numStudents; i++) {
+            cout << "   " << (i + 1) << "      ";
+            int daysPresent = 0;
+
+            for (int j = 0; j < numDays; j++) {
+                cout << attendance[i][j] << "    ";
+                daysPresent = daysPresent + attendance[i][j];
+            }
+
+            double percentage = (double)daysPresent / numDays * 100;
+
+            string remarks;
+            if (percentage < 50) {
+                remarks = "DRP (Repeat)";
+            } else {
+                remarks = "OK";
+            }
+
+            cout << daysPresent << "    ";
+            cout << fixed << setprecision(1) << percentage << "%    ";
+            cout << remarks << "\n";
+        }
+
+        cout << "\n----------------------------------------\n";
+        cout << "Do you want to run again? (y/n): ";
+        cin >> runAgain;
+        cout << "\n";
+
+    } while (runAgain == 'y' || runAgain == 'Y');
+
+    cout << "Program ended. Thank you!\n";
+
+    return 0;
+}
