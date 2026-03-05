@@ -1,0 +1,100 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+
+    int parking[5][10] = {0};
+    int choice;
+    int row, col;
+    double total = 0;
+    double fee = 12.00;
+
+    do {
+        cout << "\n=================================\n";
+        cout << "       CAR PARKING SYSTEM\n";
+        cout << "=================================";
+        cout << "Total Collection: P" << total << endl;
+        cout << "1 - View Parking Layout\n";
+        cout << "2 - Park a Car\n";
+        cout << "3 - Leave Parking\n";
+        cout << "4 - Reset Parking Area\n";
+        cout << "5 - Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch(choice) {
+
+            case 1:
+                cout << "\nParking Layout:\n   ";
+                for(int c = 0; c < 10; c++)
+                    cout << c+1 << " ";
+                cout << endl;
+
+                for(int r = 0; r < 5; r++) {
+                    cout << char('A'+ r) << "  ";
+                    for(int c = 0; c < 10; c++) {
+                        cout << parking[r][c] << " ";
+                    }
+                    cout << endl;
+                }
+                break;
+
+            case 2:
+                cout << "Enter row number (1-5): ";
+                cin >> row;
+                cout << "Enter column number (1-10): ";
+                cin >> col;
+
+                if(row < 1 || row > 5 || col < 1 || col > 10) {
+                    cout << "Invalid slot selection!\n";
+                }
+                else if(parking[row-1][col-1] == 1) {
+                    cout << "Sorry, that slot is already occupied.\n";
+                }
+                else {
+                    parking[row-1][col-1] = 1;
+                    cout << "Car parked successfully!\n";
+                }
+                break;
+
+            case 3:
+                cout << "Enter row number (1-5): ";
+                cin >> row;
+                cout << "Enter column number (1-10): ";
+                cin >> col;
+
+                if(row < 1 || row > 5 || col < 1 || col > 10) {
+                    cout << "Invalid slot selection!\n";
+                }
+                else if(parking[row-1][col-1] == 0) {
+                    cout << "That slot is already empty.\n";
+                }
+                else {
+                    parking[row-1][col-1] = 0;
+                    total += fee;
+                    cout << "Car has left the parking area.\n";
+                    cout << "Fee collected: P" << fee << endl;
+                }
+                break;
+
+            case 4:
+                for(int r = 0; r < 5; r++) {
+                    for(int c = 0; c < 10; c++) {
+                        parking[r][c] = 0;
+                    }
+                }
+                cout << "All parking slots are now empty.\n";
+                break;
+
+            case 5:
+                cout << "Thank you for using the system!\n";
+                break;
+
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+
+    } while(choice != 5);
+
+    return 0;
+}
