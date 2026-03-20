@@ -1,0 +1,76 @@
+#include <iostream>
+using namespace std;
+
+string category(int r) {
+    if (r == 5) return "Excellent";
+    else if (r == 4) return "Very Good";
+    else if (r == 3) return "Good";
+    else if (r == 2) return "Fair";
+    else if (r == 1) return "Poor";
+    else return "No Rating";
+}
+
+void input(int size, struct book b[]) {
+    for (int i = 0; i < size; i++) {
+        cout << "\nEnter details for Book #" << i + 1 << endl;
+
+        // checking if barcode is unique
+        bool ok;
+        do {
+            ok = true;
+            cout << "Barcode: ";
+            cin >> b[i].barcode;
+
+            for (int j = 0; j < i; j++) {
+                if (b[i].barcode == b[j].barcode) {
+                    cout << "Oops, barcode already used. Try again.\n";
+                    ok = false;
+                }
+            }
+        } while (!ok);
+
+        cin.ignore();
+        cout << "Title: ";
+        getline(cin, b[i].title);
+
+        cout << "Year Published: ";
+        cin >> b[i].year;
+
+        cout << "Rating (0-5): ";
+        cin >> b[i].rating;
+    }
+}
+
+void display(int size, struct book b[]) {
+    cout << "\n\n===== BOOK LIST =====\n";
+    cout << "Barcode\tTitle\tYear\tRating\tCategory\n";
+
+    for (int i = 0; i < size; i++) {
+        cout << b[i].barcode << "\t"
+             << b[i].title << "\t"
+             << b[i].year << "\t"
+             << b[i].rating << "\t"
+             << category(b[i].rating) << endl;
+    }
+}
+
+int main() {
+    int n;
+
+    struct book {
+        int barcode;
+        string title;
+        int year;
+        int rating;
+    };
+
+    cout << "How many books do you want to enter? ";
+    cin >> n;
+
+    book obj[n];
+
+    input(n, obj);
+    display(n, obj);
+
+    return 0;
+}
