@@ -1,0 +1,147 @@
+#include <iostream>
+#include <vector>
+#include <iomanip>
+using namespace std;
+
+struct book {
+    string barcode;
+    string title;
+    int year;
+    int rating;
+};
+
+string getCategory(int rating) {
+    switch(rating) {
+        case 5: return "Excellent";
+        case 4: return "Very Good";
+        case 3: return "Good";
+        case 2: return "Fair";
+        case 1: return "Poor";
+        case 0: return "No Rating";
+        default: return "Invalid";
+    }
+}
+
+bool isUnique(vector<book> &books, string barcode) {
+    for (int i = 0; i < books.size(); i++) {
+        if (books[i].barcode == barcode) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void addBook(vector<book> &books) {
+    book b;
+
+    cout << "\nEnter Barcode: ";
+    cin >> b.barcode;
+
+    while (!isUnique(books, b.barcode)) {
+        cout << "Barcode already exists! Enter another: ";
+        cin >> b.barcode;
+    }
+
+    cin.ignore();
+    cout << "Enter Title: ";
+    getline(cin, b.title);
+
+    cout << "Enter Year Published: ";
+    cin >> b.year;
+
+    cout << "Enter Rating (0-5): ";
+    cin >> b.rating;
+
+    books.push_back(b);
+    cout << "Book added successfully!\n";
+}
+
+void editBook(vector<book> &books) {
+    string barcode;
+    cout << "\nEnter Barcode to Edit: ";
+    cin >> barcode;
+
+    for (int i = 0; i < books.size(); i++) {
+        if (books[i].barcode == barcode) {
+            cin.ignore();
+            cout << "Enter New Title: ";
+            getline(cin, books[i].title);
+
+            cout << "Enter New Year: ";
+            cin >> books[i].year;
+
+            cout << "Enter New Rating (0-5): ";
+            cin >> books[i].rating;
+
+            cout << "Book updated successfully!\n";
+            return;
+        }
+    }
+    cout << "Book not found!\n";
+}
+
+void deleteBook(vector<book> &books) {
+    string barcode;
+    cout << "\nEnter Barcode to Delete: ";
+    cin >> barcode;
+
+    for (int i = 0; i < books.size(); i++) {
+        if (books[i].barcode == barcode) {
+            books.erase(books.begin() + i);
+            cout << "Book deleted successfully!\n";
+            return;
+        }
+    }
+    cout << "Book not found!\n";
+}
+
+void displayBooks(vector<book> &books) {
+    if (books.empty()) {
+        cout << "\nNo books available.\n";
+        return;
+    }
+
+    cout << "\n---------------------------------------\n";
+    cout << left << setw(12) << "Barcode"
+         << setw(20) << "Title"
+         << setw(8) << "Year"
+         << setw(8) << "Rating"
+         << setw(15) << "Category" << endl;
+    cout << "-----------------------------------------\n";
+
+    for (int i = 0; i < books.size(); i++) {
+        cout << left << setw(12) << books[i].barcode
+             << setw(20) << books[i].title
+             << setw(8) << books[i].year
+             << setw(8) << books[i].rating
+             << setw(15) << getCategory(books[i].rating) << endl;
+    }
+}
+
+int main() {
+    vector<book> books;
+    int choice;
+
+    do {
+        cout << "\n===== BOOK MANAGEMENT MENU =====\n";
+        cout << "1. Add Book\n";
+        cout << "2. Edit Book\n";
+        cout << "3. Delete Book\n";
+        cout << "4. Display Books\n";
+        cout << "5. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch(choice) {
+            case 1: addBook(books); break;
+            case 2: editBook(books); break;
+            case 3: deleteBook(books); break;
+            case 4: displayBooks(books); break;
+            case 5: cout << "Exiting program...\n"; break;
+            default: cout << "Invalid choice!\n";
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
