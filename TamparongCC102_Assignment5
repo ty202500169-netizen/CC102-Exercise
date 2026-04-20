@@ -1,0 +1,69 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    cout << "Let's create numbers and sort them alphabetically!" << endl << endl;
+    
+    cout << "Creating 'original.txt'..." << endl;
+    
+    ofstream originalFile("original.txt");
+    
+    if (!originalFile.is_open()) {
+        cerr << "Couldn't create original.txt!" << endl;
+        return 1;
+    }
+    
+    originalFile << "One" << endl;
+    originalFile << "Two" << endl;
+    originalFile << "Three" << endl;
+    originalFile << "Four" << endl;
+    originalFile << "Five" << endl;
+    originalFile << "Six" << endl;
+    
+    originalFile.close();
+    cout << "original.txt created!" << endl << endl;
+    
+    cout << "Reading and sorting alphabetically..." << endl;
+    
+    ifstream inputFile("original.txt");
+    vector<string> numbers;
+    string line;
+    
+    if (!inputFile.is_open()) {
+        cerr << "Couldn't read original.txt!" << endl;
+        return 1;
+    }
+    
+    while (getline(inputFile, line)) {
+        numbers.push_back(line);
+        cout << "  Read: " << line << endl;
+    }
+    inputFile.close();
+    
+    sort(numbers.begin(), numbers.end());
+    
+    ofstream sortedFile("sorted.txt");
+    if (!sortedFile.is_open()) {
+        cerr << "Couldn't create sorted.txt!" << endl;
+        return 1;
+    }
+    
+    cout << "Writing sorted list..." << endl;
+    for (const string& num : numbers) {
+        sortedFile << num << endl;
+        cout << "  Sorted: " << num << endl;
+    }
+    
+    sortedFile.close();
+    
+    cout << endl << "Done! Check your files:" << endl;
+    cout << "   original.txt → Five, Four, One, Six, Three, Two" << endl;
+    cout << "   sorted.txt  → Five, Four, One, Six, Three, Two (alphabetical order)" << endl;
+    
+    return 0;
+}
