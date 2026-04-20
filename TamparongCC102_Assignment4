@@ -1,0 +1,60 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    cout << "Let's create a colorful file adventure!" << endl << endl;
+    
+    cout << "Creating 'color.txt' with our favorite colors..." << endl;
+    
+    ofstream colorFile("color.txt");
+    
+    if (!colorFile.is_open()) {
+        cerr << "Oops! Couldn't create color.txt. Check your permissions!" << endl;
+        return 1;
+    }
+    
+    colorFile << "Red" << endl;
+    colorFile << "Blue" << endl;
+    colorFile << "Green" << endl;
+    colorFile << "Yellow" << endl;
+    colorFile << "Purple" << endl;
+    
+    colorFile.close();
+    cout << "color.txt created with 5 gorgeous colors!" << endl << endl;
+    
+    cout << "Now making an exact copy called 'color_copy.txt'..." << endl;
+    
+    ifstream originalFile("color.txt");
+    ofstream copyFile("color_copy.txt");
+    
+    if (!originalFile.is_open()) {
+        cerr << "Problem reading color.txt! Did it disappear?" << endl;
+        return 1;
+    }
+    
+    if (!copyFile.is_open()) {
+        cerr << "couldn't create the copy file. Disk full maybe?" << endl;
+        originalFile.close();
+        return 1;
+    }
+    
+    string currentLine;
+    cout << "Copying lines one by one..." << endl;
+    
+    while (getline(originalFile, currentLine)) {
+        copyFile << currentLine << endl;
+        cout << "  Copied: " << currentLine << endl;
+    }
+    
+    originalFile.close();
+    copyFile.close();
+    
+    cout << endl << "Success! Your color collection has been duplicated!" << endl;
+    cout << "   Original: color.txt" << endl;
+    cout << "   Copy:     color_copy.txt" << endl;
+    
+    return 0;
+}
