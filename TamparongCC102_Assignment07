@@ -1,0 +1,42 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+using namespace std;
+
+bool isPerfectSquare(int n) {
+    if (n < 0) return false;
+    int root = sqrt(n);
+    return (root * root == n);
+}
+
+bool isEven(int n) {
+    return n % 2 == 0;
+}
+
+int main() {
+    ifstream inFile("input.txt");
+    ofstream outFile("output.txt");
+
+    if (!inFile) {
+        cout << "Error opening input.txt" << endl;
+        return 1;
+    }
+    if (!outFile) {
+        cout << "Error opening output.txt" << endl;
+        return 1;
+    }
+
+    int num;
+
+    while (inFile >> num) {
+        if (isEven(num) && isPerfectSquare(num)) {
+            outFile << num << endl;
+        }
+    }
+
+    inFile.close();
+    outFile.close();
+
+    cout << "Processing complete. Check output.txt" << endl;
+    return 0;
+}
